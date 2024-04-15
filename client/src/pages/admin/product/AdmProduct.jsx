@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useGetProductsQuery } from "../../../app/api/productApiSlice";
 import { Err, Loading, PostBtn } from "../../../components/Components";
 import AdmProductCard from "./AdmProductCard";
@@ -6,10 +5,6 @@ import { H2 } from "../../../components/Tags";
 
 const AdmProduct = () => {
   const { data: products, isLoading, isSuccess, isError, error } = useGetProductsQuery();
-
-  useEffect(() => {
-    console.log(products);
-  }, [products]);
 
   let content;
   if (isLoading) content = <Loading />;

@@ -1,12 +1,12 @@
-import { ConfModalDel, Modal } from "../../../components/Components";
-import { useDeleteUserMutation } from "../../../app/api/userApiSlice";
+import { useDeleteProductMutation } from "../../../app/api/productApiSlice";
 import toast from "react-hot-toast";
+import { ConfModalDel, Modal } from "../../../components/Components";
 
-const AdmUserModalDelete = ({ item, onClose }) => {
-  const [deleteUser] = useDeleteUserMutation();
+const AdmProductModalDelete = ({ item, onClose }) => {
+  const [deleteProduct] = useDeleteProductMutation();
   const onDelete = (e) => {
     e.preventDefault();
-    deleteUser(item?._id)
+    deleteProduct(item?._id)
       .unwrap()
       .then((res) => {
         toast.success(res?.message);
@@ -25,6 +25,6 @@ const AdmUserModalDelete = ({ item, onClose }) => {
     </Modal>
   );
 };
-AdmUserModalDelete.propTypes;
+AdmProductModalDelete.propTypes;
 
-export default AdmUserModalDelete;
+export default AdmProductModalDelete;

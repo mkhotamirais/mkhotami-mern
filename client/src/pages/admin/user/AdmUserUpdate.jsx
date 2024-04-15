@@ -22,7 +22,7 @@ const AdmUserUpdate = () => {
     usernameRef.current.focus();
   }, []);
 
-  const [updateUser] = useUpdateUserMutation();
+  const [updateUser] = useUpdateUserMutation(id);
   useEffect(() => {
     if (user) {
       setUsername(user?.username);

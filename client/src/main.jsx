@@ -23,6 +23,9 @@ import Product from "./pages/product/Product.jsx";
 import Blog from "./pages/blog/Blog.jsx";
 import Movie from "./pages/movie/Movie.jsx";
 import AdmProductPost from "./pages/admin/product/AdmProductPost.jsx";
+import AdmUserDetail from "./pages/admin/user/AdmUserDetail.jsx";
+import AdmProductDetail from "./pages/admin/product/AdmProductDetail.jsx";
+import AdmProductUpdate from "./pages/admin/product/AdmProductUpdate.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,6 +46,8 @@ const router = createBrowserRouter(
           <Route path="adm-product">
             <Route index element={<AdmProduct />} />
             <Route path="post" element={<AdmProductPost />} />
+            <Route path="detail/:id" element={<AdmProductDetail />} />
+            <Route path="update/:id" element={<AdmProductUpdate />} />
           </Route>
           <Route path="adm-product-category">
             <Route index element={<AdmProductCategory />} />
@@ -54,6 +59,7 @@ const router = createBrowserRouter(
           <Route index element={<AdmUser />} />
           <Route path="post" element={<AdmUserPost />} />
           <Route path="update/:id" element={<AdmUserUpdate />} />
+          <Route path="detail/:id" element={<AdmUserDetail />} />
         </Route>
       </Route>
     </Route>

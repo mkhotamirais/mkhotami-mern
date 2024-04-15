@@ -1,10 +1,8 @@
-import { useSelector } from "react-redux";
 import { Modal } from "../../../components/Components";
 
-const AdmUserModalDetail = ({ item, onClose }) => {
-  const { dark } = useSelector((state) => state.basic);
+const AdmUserModalView = ({ item, onClose }) => {
   return (
-    <Modal className={dark ? "bg-slate-800" : "bg-white"} onClick={onClose} id={item?._id}>
+    <Modal onClick={onClose} id={item?._id}>
       <div className="flex gap-2 flex-col my-5">
         <div>username: {item?.username}</div>
         <div>email: {item?.email}</div>
@@ -16,6 +14,6 @@ const AdmUserModalDetail = ({ item, onClose }) => {
     </Modal>
   );
 };
-AdmUserModalDetail.propTypes;
+AdmUserModalView.propTypes;
 
-export default AdmUserModalDetail;
+export default AdmUserModalView;

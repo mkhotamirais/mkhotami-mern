@@ -1,8 +1,9 @@
-import { FaChevronLeft, FaTrash, FaPlus, FaTimes } from "react-icons/fa";
+import { FaChevronLeft, FaTrash, FaPlus, FaTimes, FaEye, FaExclamationCircle, FaEdit } from "react-icons/fa";
 import { PiSpinner } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { H2 } from "./Tags";
 import { parseISO, formatDistanceToNow } from "date-fns";
+import { useSelector } from "react-redux";
 
 export const Logo = ({ className }) => {
   return (
@@ -64,6 +65,8 @@ export const TimeAgo = ({ time, className }) => {
 TimeAgo.propTypes;
 
 export const Modal = ({ children = "Modal", id, onClick, className = "bg-white" }) => {
+  const { dark } = useSelector((state) => state.basic);
+
   return (
     <div
       onClick={onClick}
@@ -71,7 +74,9 @@ export const Modal = ({ children = "Modal", id, onClick, className = "bg-white" 
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`relative ${className} p-5 mx-3 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 shadow rounded-lg`}
+        className={`relative ${className} ${
+          dark ? "bg-slate-800" : "bg-white"
+        } p-5 mx-3 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 shadow rounded-lg`}
       >
         <button onClick={onClick} className="hover:text-red-500 absolute right-3 top-3">
           <FaTimes />
@@ -117,3 +122,23 @@ export const PreviewImg = ({ onRemovePreview, preview }) => {
   );
 };
 PreviewImg.propTypes;
+
+export const Actions = ({ className, modalView, modalDelete, id }) => {
+  return (
+    <div className={`${className} flex w-full border border-blue-300 rounded-lg justify-around p-2`}>
+      <button onClick={modalView} className="text-blue-500 hover:opacity-70">
+        <FaEye />
+      </button>
+      <Link to={`detail/${id}`} className="text-yellow-500 hover:opacity-70">
+        <FaExclamationCircle />
+      </Link>
+      <Link to={`update/${id}`} className="text-green-500 hover:opacity-70">
+        <FaEdit />
+      </Link>
+      <button onClick={modalDelete} className="text-red-500 hover:opacity-70">
+        <FaTrash />
+      </button>
+    </div>
+  );
+};
+Actions.propTypes;

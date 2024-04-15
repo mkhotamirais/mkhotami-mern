@@ -1,24 +1,37 @@
 import { useEffect, useRef, useState } from "react";
 import { Input, InputRef, Label, Select, Textarea } from "../../../components/Tags";
 import { PreviewImg, Title } from "../../../components/Components";
-import { usePostProductMutation } from "../../../app/api/productApiSlice";
+import { useGetProductByIdQuery, useUpdateProductMutation } from "../../../app/api/productApiSlice";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useGetCategoriesQuery } from "../../../app/api/productCategoryApiSlice";
 
-const AdmProductPost = () => {
+const AdmProductUpdate = () => {
+  const { id } = useParams();
+  const { data: product } = useGetProductByIdQuery(id);
   const nameRef = useRef();
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
   const [category, setCategory] = useState("");
-
   const [image, setImage] = useState("");
   const [preview, setPreview] = useState("");
   const navigate = useNavigate();
 
-  const [postProduct] = usePostProductMutation();
+  useEffect(() => {
+    if (product) {
+      setName(product?.name);
+      setPrice(product?.price);
+      setQuantity(product?.quantity);
+      setCategory(product?.category);
+      setDescription(product?.description);
+      setImage(product?.imageName);
+      setPreview(product?.imageUrl);
+    }
+  }, [product]);
+
+  const [updateProduct] = useUpdateProductMutation();
   const { data: categories } = useGetCategoriesQuery();
 
   useEffect(() => {
@@ -39,13 +52,14 @@ const AdmProductPost = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
+    formData.append("id", id);
     formData.append("name", name);
     formData.append("price", price);
     formData.append("category", category);
     formData.append("quantity", quantity);
     formData.append("image", image);
     formData.append("description", description);
-    postProduct(formData)
+    updateProduct(formData)
       .unwrap()
       .then((res) => {
         setName("");
@@ -55,15 +69,13 @@ const AdmProductPost = () => {
         navigate(-1);
       })
       .catch((err) => {
-        console.log(err);
-        console.log(err.product);
         toast.error(err.data.message);
       });
   };
 
   return (
     <div>
-      <Title>Post Product</Title>
+      <Title>Update Product</Title>
       <form onSubmit={handleSubmit}>
         <div className="flex sm:gap-3 flex-col sm:flex-row">
           <div className="flex-1">
@@ -106,4 +118,4 @@ const AdmProductPost = () => {
   );
 };
 
-export default AdmProductPost;
+export default AdmProductUpdate;

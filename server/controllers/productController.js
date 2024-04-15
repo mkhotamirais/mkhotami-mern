@@ -7,7 +7,9 @@ const { isValidObjectId } = require("mongoose");
 
 const getProducts = async (req, res) => {
   try {
-    const data = await Product.find().sort({ updatedAt: -1 });
+    const data = await Product.find()
+      .sort({ updatedAt: -1 })
+      .populate({ path: "category", select: ["_id", "name"] });
     ok(res, 200, `get data`, data);
   } catch (error) {
     err(res, 400, error);
@@ -17,7 +19,7 @@ const getProducts = async (req, res) => {
 const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await Product.findById(id);
+    const data = await Product.findById(id).populate({ path: "category", select: ["_id", "name"] });
     if (!data) return err(res, 404, `data id ${id} tidak ditemukan`);
     ok(res, 200, `get data`, data);
   } catch (error) {
@@ -26,6 +28,10 @@ const getProductById = async (req, res) => {
 };
 
 const postProduct = async (req, res) => {
+  const { name, price, description } = req.body;
+  if (!name) return err(res, 400, `nama produk harus diisi`);
+  if (!price) return err(res, 400, `harga produk harus diisi`);
+  if (!description) return err(res, 400, `deskripsi produk harus diisi`);
   if (req.file) {
     const { originalname, filename, path, size } = req.file;
     const validExt = [".jpg", "jpeg", ".png"];

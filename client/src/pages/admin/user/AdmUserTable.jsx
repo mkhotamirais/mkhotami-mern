@@ -1,17 +1,15 @@
-import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
-import { TimeAgo } from "../../../components/Components";
+import { Actions, TimeAgo } from "../../../components/Components";
 import { useState } from "react";
-import AdmUserModalDetail from "./AdmUserModalDetail";
+import AdmUserModalView from "./AdmUserModalView";
 import AdmUserModalDelete from "./AdmUserModalDelete";
-import { Link } from "react-router-dom";
 
 const AdmUserTable = ({ item, i }) => {
-  const [showUserModalDetail, setShowUserModalDetail] = useState(null);
-  const [showUserModalDelete, setShowUserModalDelete] = useState(null);
+  const [showModalView, setShowModalView] = useState(null);
+  const [showModalDelete, setShowModalDelete] = useState(null);
 
   const onClose = () => {
-    if (showUserModalDelete !== null) setShowUserModalDelete(null);
-    if (showUserModalDetail !== null) setShowUserModalDetail(null);
+    if (showModalDelete !== null) setShowModalDelete(null);
+    if (showModalView !== null) setShowModalView(null);
   };
   return (
     <tr className="*:border *:text-left *:p-1 *:px-2 *:rounded">
@@ -27,19 +25,14 @@ const AdmUserTable = ({ item, i }) => {
         <TimeAgo time={item?.updatedAt} />
       </td>
       <td>
-        <div className="flex justify-between">
-          <button onClick={() => setShowUserModalDetail(item?._id)}>
-            <FaEye className="text-yellow-600" />
-          </button>
-          <Link to={`update/${item?._id}`}>
-            <FaEdit className="text-green-600" />
-          </Link>
-          <button onClick={() => setShowUserModalDelete(item?._id)}>
-            <FaTrash className="text-red-600" />
-          </button>
-        </div>
-        {showUserModalDetail === item?._id && <AdmUserModalDetail item={item} onClose={onClose} />}
-        {showUserModalDelete === item?._id && <AdmUserModalDelete item={item} onClose={onClose} />}
+        <Actions
+          modalView={() => setShowModalView(item?._id)}
+          modalDelete={() => setShowModalDelete(item?._id)}
+          id={item?._id}
+          className={"border-none"}
+        />
+        {showModalView === item?._id && <AdmUserModalView item={item} onClose={onClose} />}
+        {showModalDelete === item?._id && <AdmUserModalDelete item={item} onClose={onClose} />}
       </td>
     </tr>
   );

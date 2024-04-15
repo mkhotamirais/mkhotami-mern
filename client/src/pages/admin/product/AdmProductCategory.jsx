@@ -9,6 +9,7 @@ import { Err, Loading } from "../../../components/Components";
 import { FaCheck, FaEdit, FaPlus, FaTimes, FaTrash } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { PiSpinner } from "react-icons/pi";
+import { H2 } from "../../../components/Tags";
 
 const AdmProductCategory = () => {
   const { data: categories, isLoading, isSuccess, isError, error } = useGetCategoriesQuery();
@@ -42,6 +43,7 @@ const AdmProductCategory = () => {
   }
   return (
     <div>
+      <H2 className={"py-2"}>Category List</H2>
       <form onSubmit={handlePostCategory} className="border rounded overflow-hidden flex items-center w-72">
         <input
           type="text"

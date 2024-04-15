@@ -7,12 +7,14 @@ const db = require("./config");
 const { log } = require("console");
 const cookieParser = require("cookie-parser");
 const { credentials, corsOptions } = require("./config/cred");
+const { join } = require("path");
 
 app.use(morgan("tiny"));
 
 app.use(credentials);
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(express.static(join(__dirname, "public")));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 

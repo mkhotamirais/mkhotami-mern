@@ -23,32 +23,36 @@ export const Label = ({ children = "Label", id, className }) => (
 );
 Label.propTypes;
 
-export const Input = ({ type = "text", id, value, onChange, placeholder, className }) => (
+export const Input = ({ type = "text", id, value, onChange, autoComplete = "off", placeholder, className }) => (
   <input
     type={type}
     id={id}
     name={id}
     value={value}
     onChange={onChange}
+    autoComplete={autoComplete}
     placeholder={placeholder}
     className={`${className} border rounded p-2 block w-full bg-inherit mb-2`}
   />
 );
 Input.propTypes;
 
-export const InputRef = forwardRef(({ type = "text", id, value, onChange, placeholder, autoFocus, className }, ref) => (
-  <input
-    ref={ref}
-    type={type}
-    id={id}
-    name={id}
-    value={value}
-    autoFocus={autoFocus}
-    onChange={onChange}
-    placeholder={placeholder}
-    className={`${className} border rounded p-2 block w-full bg-inherit mb-2`}
-  />
-));
+export const InputRef = forwardRef(
+  ({ type = "text", id, value, onChange, placeholder, autoFocus, autoComplete = "off", className }, ref) => (
+    <input
+      ref={ref}
+      type={type}
+      id={id}
+      name={id}
+      value={value}
+      autoFocus={autoFocus}
+      autoComplete={autoComplete}
+      onChange={onChange}
+      placeholder={placeholder}
+      className={`${className} border rounded p-2 block w-full bg-inherit mb-2`}
+    />
+  )
+);
 InputRef.propTypes;
 InputRef.displayName;
 
@@ -67,3 +71,14 @@ export const Select = ({ children, id, value, onChange, className }) => {
   );
 };
 Select.propTypes;
+
+export const Textarea = ({ id, value, onChange, className }) => (
+  <textarea
+    id={id}
+    name={id}
+    value={value}
+    onChange={onChange}
+    className={`${className} border rounded p-2 block w-full bg-inherit mb-2`}
+  />
+);
+Textarea.propTypes;
