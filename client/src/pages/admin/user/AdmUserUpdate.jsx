@@ -1,30 +1,42 @@
 import { useEffect, useRef, useState } from "react";
 import { Title } from "../../../components/Components";
 import { Select, Input, InputRef, Label } from "../../../components/Tags";
-import { usePostUserMutation } from "../../../app/api/userApiSlice";
+import { useGetUserByIdQuery, useUpdateUserMutation } from "../../../app/api/userApiSlice";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
-const AdmUserPost = () => {
+const AdmUserUpdate = () => {
+  const { id } = useParams();
+  const { data: user } = useGetUserByIdQuery(id);
   const usernameRef = useRef();
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confPassword, setConfPassword] = useState("");
+  const [username, setUsername] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [confPassword, setConfPassword] = useState(null);
   const [role, setRole] = useState("user");
-  const [gender, setGender] = useState("");
+  const [gender, setGender] = useState(null);
+  const [isEditPass, setIsEditPass] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     usernameRef.current.focus();
   }, []);
 
-  const [postUser] = usePostUserMutation();
+  const [updateUser] = useUpdateUserMutation();
+  useEffect(() => {
+    if (user) {
+      setUsername(user?.username);
+      setEmail(user?.email);
+      setGender(user?.gender);
+      setRole(user?.role);
+    }
+  }, [user]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = { username, email, password, confPassword, role, gender };
-    postUser(data)
+    let data = { id, username, email, role, gender };
+    if (password) data = { ...data, password, confPassword };
+    updateUser(data)
       .unwrap()
       .then((res) => {
         toast.success(res.message);
@@ -36,7 +48,7 @@ const AdmUserPost = () => {
   };
   return (
     <div>
-      <Title>Post User</Title>
+      <Title>Update User</Title>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col md:gap-3 md:flex-row">
           <div className="flex-1">
@@ -48,21 +60,27 @@ const AdmUserPost = () => {
             <Input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
         </div>
-        <div className="flex flex-col md:gap-3 md:flex-row">
-          <div className="flex-1">
-            <Label id="password">password</Label>
-            <Input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <button type="button" onClick={() => setIsEditPass((prev) => !prev)} className="underline">
+          {isEditPass ? "Hide Input" : "Change"} Password
+        </button>
+        {isEditPass && (
+          <div className="flex flex-col md:gap-3 md:flex-row">
+            <div className="flex-1">
+              <Label id="password">password</Label>
+              <Input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </div>
+            <div className="flex-1">
+              <Label id="confPassword">confirm password</Label>
+              <Input
+                type="password"
+                id="confPassword"
+                value={confPassword}
+                onChange={(e) => setConfPassword(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="flex-1">
-            <Label id="confPassword">confirm password</Label>
-            <Input
-              type="password"
-              id="confPassword"
-              value={confPassword}
-              onChange={(e) => setConfPassword(e.target.value)}
-            />
-          </div>
-        </div>
+        )}
+
         <div className="flex flex-col md:gap-3 md:flex-row">
           <div className="flex-1">
             <Label id="gender">gender</Label>
@@ -89,4 +107,4 @@ const AdmUserPost = () => {
   );
 };
 
-export default AdmUserPost;
+export default AdmUserUpdate;

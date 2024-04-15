@@ -7,7 +7,6 @@ import { RiAdminFill } from "react-icons/ri";
 import { useSignoutMutation } from "../app/api/authApiSlice";
 import toast from "react-hot-toast";
 import { removeUserData } from "../app/features/authSlice";
-import { useEffect } from "react";
 
 export const NavDark = () => {
   const dispatch = useDispatch();

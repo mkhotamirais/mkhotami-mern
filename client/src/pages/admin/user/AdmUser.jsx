@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { useGetUsersQuery } from "../../../app/api/userApiSlice";
 import { Err, Loading, PostBtn } from "../../../components/Components";
+import { H2 } from "../../../components/Tags";
 import AdmUserTable from "./AdmUserTable";
 
 const AdmUser = () => {
@@ -20,8 +21,11 @@ const AdmUser = () => {
           <tr className="*:border *:text-left *:p-1 *:px-2 *:rounded">
             <th>no</th>
             <th>username</th>
-            <th>email</th>
-            <th>role</th>
+            <th className="hidden sm:table-cell">email</th>
+            <th className="hidden sm:table-cell">role</th>
+            <th className="hidden md:table-cell">gender</th>
+            <th className="hidden lg:table-cell">created</th>
+            <th className="hidden xl:table-cell">updated</th>
             <th>action</th>
           </tr>
         </thead>
@@ -33,7 +37,7 @@ const AdmUser = () => {
   return (
     <div>
       <div className="py-3 flex justify-between">
-        <div>halo</div>
+        <H2>User List</H2>
         <PostBtn />
       </div>
       {content}

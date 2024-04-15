@@ -1,9 +1,10 @@
 const { err, ok, hashPass } = require("../helper/utils");
 const User = require("../models/userModel");
+const validator = require("validator");
 
 const getUsers = async (req, res) => {
   try {
-    const data = await User.find().sort({ updatedAt: -1 }).select(["-__v", "-password"])
+    const data = await User.find().sort({ role: 1, createdAt: -1 }).select(["-__v", "-password"]);
     ok(res, 200, "get users", data);
   } catch (error) {
     err(res, 400, error);
@@ -26,6 +27,7 @@ const postUser = async (req, res) => {
     const { username, email, password, confPassword } = req.body;
     if (!username) return err(res, 400, `username harus diisi`);
     if (!email) return err(res, 400, `email harus diisi`);
+    if (!validator.isEmail(email)) return err(res, 400, `email tidak valid`);
     if (!password) return err(res, 400, `password harus diisi`);
     const dupUsername = await User.findOne({ username });
     if (dupUsername) return err(res, 409, `username sudah terdaftar gunakan useraname lain`);

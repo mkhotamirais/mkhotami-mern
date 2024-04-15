@@ -12,9 +12,9 @@ const ok = (res, status, message, data) => {
   return res.status(status).json({ message, data });
 };
 
-const err = (res, status, error) => {
+const err = (res, status, error, stack = "") => {
   console.log(error);
-  return res.status(status).json({ message: error?.errors || error?.message || error });
+  return res.status(status).json({ message: error?.message || error, stack: error?.errors || error });
 };
 
 const upload = multer({ dest: path.join(rootPath, "public/images/product") }).single("image");

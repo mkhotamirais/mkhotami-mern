@@ -1,7 +1,8 @@
 import { forwardRef } from "react";
+import { useSelector } from "react-redux";
 
 export const H1 = ({ children = "H1", className }) => (
-  <div className={`${className} leading-relaxed text-xl capitalize font-bold`}>{children}</div>
+  <div className={`${className} leading-loose text-xl capitalize font-bold`}>{children}</div>
 );
 H1.propTypes;
 
@@ -35,13 +36,14 @@ export const Input = ({ type = "text", id, value, onChange, placeholder, classNa
 );
 Input.propTypes;
 
-export const InputRef = forwardRef(({ type = "text", id, value, onChange, placeholder, className }, ref) => (
+export const InputRef = forwardRef(({ type = "text", id, value, onChange, placeholder, autoFocus, className }, ref) => (
   <input
     ref={ref}
     type={type}
     id={id}
     name={id}
     value={value}
+    autoFocus={autoFocus}
     onChange={onChange}
     placeholder={placeholder}
     className={`${className} border rounded p-2 block w-full bg-inherit mb-2`}
@@ -49,3 +51,19 @@ export const InputRef = forwardRef(({ type = "text", id, value, onChange, placeh
 ));
 InputRef.propTypes;
 InputRef.displayName;
+
+export const Select = ({ children, id, value, onChange, className }) => {
+  const { dark } = useSelector((state) => state.basic);
+  return (
+    <select
+      id={id}
+      name={id}
+      value={value}
+      onChange={onChange}
+      className={`${className} ${dark ? "bg-slate-800" : "bg-white"} border rounded p-2 w-full`}
+    >
+      {children}
+    </select>
+  );
+};
+Select.propTypes;

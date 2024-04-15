@@ -1,7 +1,8 @@
-import { FaChevronLeft, FaPlus } from "react-icons/fa";
+import { FaChevronLeft, FaTrash, FaPlus, FaTimes } from "react-icons/fa";
 import { PiSpinner } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { H2 } from "./Tags";
+import { parseISO, formatDistanceToNow } from "date-fns";
 
 export const Logo = ({ className }) => {
   return (
@@ -50,3 +51,69 @@ export const Prev = ({ className }) => (
   </div>
 );
 Prev.propTypes;
+
+export const TimeAgo = ({ time, className }) => {
+  let timeAgo = "";
+  if (time) {
+    const date = parseISO(time);
+    const period = formatDistanceToNow(date);
+    timeAgo = `${period} ago`;
+  }
+  return <span className={`${className} text-sm`}>{timeAgo}</span>;
+};
+TimeAgo.propTypes;
+
+export const Modal = ({ children = "Modal", id, onClick, className = "bg-white" }) => {
+  return (
+    <div
+      onClick={onClick}
+      className={`fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-30 flex items-center justify-center`}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className={`relative ${className} p-5 mx-3 w-full sm:w-2/3 md:w-1/2 lg:w-1/3 shadow rounded-lg`}
+      >
+        <button onClick={onClick} className="hover:text-red-500 absolute right-3 top-3">
+          <FaTimes />
+        </button>
+        <div className="mr-5 text-sm">ID: {id}</div>
+        {children}
+      </div>
+    </div>
+  );
+};
+Modal.propTypes;
+
+export const ConfModalDel = ({ onDelete, onClose, className }) => {
+  return (
+    <div className={`${className}`}>
+      <div className="flex gap-3">
+        <form onSubmit={onDelete} className="relative">
+          <input type="checkbox" autoFocus className="absolute opacity-0" />
+          <button type="submit" className="bg-red-500 text-white p-2 rounded">
+            Delete
+          </button>
+        </form>
+        <button className="bg-slate-600 text-white p-2 rounded" onClick={onClose}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
+};
+ConfModalDel.propTypes;
+
+export const PreviewImg = ({ onRemovePreview, preview }) => {
+  return (
+    <div className="relative w-48 h-48 my-2 border p-1 rounded overflow-hidden group">
+      <button
+        onClick={onRemovePreview}
+        className="hidden group-hover:flex items-center justify-center bg-[rgba(0,0,0,.5)] p-3 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      >
+        <FaTrash className="text-red-500 inline-block" />
+      </button>
+      <img src={preview} width={200} alt="image preview" className="object-contain object-center w-full h-full" />
+    </div>
+  );
+};
+PreviewImg.propTypes;

@@ -4,7 +4,7 @@ import { toggleOpenNav } from "../app/features/basicSlice";
 import { NavLink } from "react-router-dom";
 // import { useEffect } from "react";
 
-const navMenus = ["home", "product", "blog", "film"];
+const navMenus = ["home", "product", "blog", "movie"];
 
 export const NavBtn = ({ className }) => {
   const { openNav } = useSelector((state) => state.basic);

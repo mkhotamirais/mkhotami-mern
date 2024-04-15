@@ -8,18 +8,20 @@ export const useApiSlice = apiSlice.injectEndpoints({
       providesTags: ["User"],
       keepUnusedDataFor: 5,
     }),
+    getUserById: builder.query({
+      query: (id) => ({ url: `/api/user/${id}` }),
+      transformResponse: (responseData) => responseData.data,
+      keepUnusedDataFor: 5,
+    }),
     postUser: builder.mutation({
       query: (data) => ({ url: `/api/user`, method: "POST", body: data }),
     }),
     deleteUser: builder.mutation({
       query: (id) => ({ url: `/api/user/${id}`, method: "DELETE" }),
-    }),
-    getUserById: builder.query({
-      query: (id) => ({ url: `/api/${id}` }),
-      keepUnusedDataFor: 5,
+      invalidatesTags: ["User"],
     }),
     updateUser: builder.mutation({
-      query: (data) => ({ url: `/api/user/${data.id}`, method: "PUT", body: data }),
+      query: (data) => ({ url: `/api/user/${data.id}`, method: "PATCH", body: data }),
       invalidatesTags: ["User"],
     }),
   }),

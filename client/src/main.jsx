@@ -18,11 +18,22 @@ import AdmProductLayout from "./pages/admin/AdmProductLayout.jsx";
 import AdmProductCategory from "./pages/admin/product/AdmProductCategory.jsx";
 import AdmUser from "./pages/admin/user/AdmUser.jsx";
 import AdmUserPost from "./pages/admin/user/AdmUserPost.jsx";
+import AdmUserUpdate from "./pages/admin/user/AdmUserUpdate.jsx";
+import Product from "./pages/product/Product.jsx";
+import Blog from "./pages/blog/Blog.jsx";
+import Movie from "./pages/movie/Movie.jsx";
+import AdmProductPost from "./pages/admin/product/AdmProductPost.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />} errorElement={<ErrorBoundary />}>
       <Route index element={<Home />} />
+      <Route path="home" element={<Home />} />
+      <Route path="product">
+        <Route index element={<Product />} />
+      </Route>
+      <Route path="blog" element={<Blog />} />
+      <Route path="movie" element={<Movie />} />
       <Route element={<AuthRedirect />}>
         <Route path="signin" element={<Signin />} />
         <Route path="signup" element={<Signup />} />
@@ -31,6 +42,7 @@ const router = createBrowserRouter(
         <Route element={<AdmProductLayout />}>
           <Route path="adm-product">
             <Route index element={<AdmProduct />} />
+            <Route path="post" element={<AdmProductPost />} />
           </Route>
           <Route path="adm-product-category">
             <Route index element={<AdmProductCategory />} />
@@ -41,6 +53,7 @@ const router = createBrowserRouter(
         <Route path="adm-users">
           <Route index element={<AdmUser />} />
           <Route path="post" element={<AdmUserPost />} />
+          <Route path="update/:id" element={<AdmUserUpdate />} />
         </Route>
       </Route>
     </Route>
