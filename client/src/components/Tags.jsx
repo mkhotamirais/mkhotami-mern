@@ -82,3 +82,15 @@ export const Textarea = ({ id, value, onChange, className }) => (
   />
 );
 Textarea.propTypes;
+
+export const Button = ({ children = "Button", type, disabled, onClick, className }) => (
+  <button
+    type={type}
+    disabled={disabled}
+    onClick={onClick}
+    className={`${className} hover:opacity-70 border rounded p-2 bg-cyan-400`}
+  >
+    {children}
+  </button>
+);
+Button.propTypes;

@@ -13,8 +13,8 @@ const AdmProductCard = ({ item }) => {
   };
 
   return (
-    <div className="border rounded p-2 text-gray-700 flex flex-col">
-      <div className="text-sm text-gray-500">ID:{item?._id}</div>
+    <div className="border rounded p-2 flex flex-col">
+      <div className="text-sm text-gray-500">ID:{item?._id?.substring(0, 10)}..</div>
       <div className="bg-gray-100 p-2 rounded">
         <figure className="size-32 w-full">
           <img src={item?.imageUrl} alt={item?.imageName} className="w-full h-full object-contain object-center" />

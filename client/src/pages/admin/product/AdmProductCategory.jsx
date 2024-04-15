@@ -44,13 +44,13 @@ const AdmProductCategory = () => {
   return (
     <div>
       <H2 className={"py-2"}>Category List</H2>
-      <form onSubmit={handlePostCategory} className="border rounded overflow-hidden flex items-center w-72">
+      <form onSubmit={handlePostCategory} className="border rounded overflow-hidden flex items-center w-full sm:w-1/2">
         <input
           type="text"
           placeholder="new category"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="focus:outline-none p-2 w-full"
+          className="focus:outline-none p-2 w-full bg-inherit"
         />
         <button type="submit" className="border-l w-12 flex self-stretch justify-center items-center">
           <FaPlus />

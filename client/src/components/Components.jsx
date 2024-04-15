@@ -64,7 +64,7 @@ export const TimeAgo = ({ time, className }) => {
 };
 TimeAgo.propTypes;
 
-export const Modal = ({ children = "Modal", id, onClick, className = "bg-white" }) => {
+export const Modal = ({ children = "Modal", id, onClick, className }) => {
   const { dark } = useSelector((state) => state.basic);
 
   return (

@@ -8,8 +8,8 @@ const jwt = require("jsonwebtoken");
 // bad request 400, unauthorized 401, forbidden 403, conflict 409
 // internal server error 500
 
-const ok = (res, status, message, data) => {
-  return res.status(status).json({ message, data });
+const ok = (res, status, message, data, fields = "") => {
+  return res.status(status).json({ message, data, fields });
 };
 
 const err = (res, status, error, stack = "") => {

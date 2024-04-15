@@ -7,10 +7,15 @@ const { isValidObjectId } = require("mongoose");
 
 const getProducts = async (req, res) => {
   try {
-    const data = await Product.find()
+    const pageSize = 6;
+    const keyword = req.query.keyword ? { name: { $regex: req.query.keyword, $options: i } } : {};
+    const count = await Product.countDocuments({ ...keyword });
+    const data = await Product.find({ ...keyword })
+      .limit(pageSize)
       .sort({ updatedAt: -1 })
       .populate({ path: "category", select: ["_id", "name"] });
-    ok(res, 200, `get data`, data);
+    const fields = { page: 1, pages: Math.ceil(count / pageSize), hasMore: false };
+    ok(res, 200, `get data`, data, fields);
   } catch (error) {
     err(res, 400, error);
   }
@@ -28,10 +33,12 @@ const getProductById = async (req, res) => {
 };
 
 const postProduct = async (req, res) => {
-  const { name, price, description } = req.body;
+  const { name, price, description, category, quantity, brand } = req.body;
   if (!name) return err(res, 400, `nama produk harus diisi`);
   if (!price) return err(res, 400, `harga produk harus diisi`);
   if (!description) return err(res, 400, `deskripsi produk harus diisi`);
+  if (!category) return err(res, 400, `category produk harus diisi`);
+  if (!quantity) return err(res, 400, `quantity produk harus diisi`);
   if (req.file) {
     const { originalname, filename, path, size } = req.file;
     const validExt = [".jpg", "jpeg", ".png"];
@@ -129,4 +136,22 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-module.exports = { getProducts, getProductById, postProduct, updateProduct, deleteProduct };
+const addProductReview = async (req, res) => {
+  try {
+    const { rating, comment } = req.body;
+    const product = await Product.findById(req.params.id);
+    if (!product) return err(res, 400, `product dengan id ${id} tidak ditemukan`);
+    const alreadyReviewed = product.reviews.find((r) => r.user.toString() === req.user._id.toString());
+    if (alreadyReviewed) return err(res, 400, `product sudah direview`);
+    const review = { name: req.userData.username, rating: Number(rating), comment, user: req.userData.id };
+    product.reviews.push(review);
+    product.numReviews = product.reviews.length;
+    product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
+    await product.save();
+    ok(res, 201, `review added`, product);
+  } catch (error) {
+    err(res, 400, error);
+  }
+};
+
+module.exports = { getProducts, getProductById, postProduct, updateProduct, deleteProduct, addProductReview };

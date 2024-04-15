@@ -122,6 +122,7 @@ BtnAuth.propTypes;
 const BtnLogout = () => {
   const [logout] = useSignoutMutation();
   const dispatch = useDispatch();
+  const { dark } = useSelector((state) => state.basic);
 
   const handleLogout = () => {
     logout()
@@ -131,12 +132,12 @@ const BtnLogout = () => {
         dispatch(removeUserData());
       })
       .catch((err) => {
-        console.log(err);
+        toast.success(err.data.message);
       });
   };
 
   return (
-    <BtnAuth onClick={handleLogout} className={`bg-slate-200 border`}>
+    <BtnAuth onClick={handleLogout} className={`border ${dark ? "bg-slate-600" : "bg-slate-200"}`}>
       <FaRightFromBracket /> <span>Logout</span>
     </BtnAuth>
   );
