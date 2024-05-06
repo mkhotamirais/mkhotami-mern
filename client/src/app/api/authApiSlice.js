@@ -13,6 +13,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
     }),
     getMe: builder.query({
       query: () => ({ url: `/api/auth/me` }),
+      transformResponse: (res) => res.data,
       invalidatesTags: ["User"],
     }),
     updateMe: builder.mutation({

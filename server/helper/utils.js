@@ -29,9 +29,29 @@ const comparePass = (pass, oldPass) => {
   return compareSync(pass, oldPass);
 };
 
-const signJwt = (data, type) => {
+const jwtSign = (data, type) => {
   if (type == "access") return jwt.sign(data, ats, { expiresIn: "1d" });
   else if (type == "refresh") return jwt.sign(data, rts, { expiresIn: "7d" });
 };
 
-module.exports = { ok, err, hashPass, upload, comparePass, signJwt };
+const setCookie = (res, name, token) => {
+  res.cookie(`${name}`, token, {
+    httpOnly: true,
+    secure: "development",
+    sameSite: "strict",
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    // secure: "auto",
+    // sameSite: "None",
+  });
+};
+
+const removeCookie = (res, name) => {
+  res.clearCookie(`${name}`, {
+    httpOnly: true,
+    sameSite: "None",
+    secure: "auto",
+    // expires: new Date(0)
+  });
+};
+
+module.exports = { ok, err, hashPass, upload, comparePass, jwtSign, setCookie, removeCookie };

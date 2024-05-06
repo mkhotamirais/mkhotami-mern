@@ -1,7 +1,8 @@
-import { Actions, TimeAgo } from "../../../components/Components";
+import { Actions } from "../../../components/Components";
 import { useState } from "react";
 import AdmUserModalView from "./AdmUserModalView";
 import AdmUserModalDelete from "./AdmUserModalDelete";
+import moment from "moment";
 
 const AdmUserTable = ({ item, i }) => {
   const [showModalView, setShowModalView] = useState(null);
@@ -18,12 +19,8 @@ const AdmUserTable = ({ item, i }) => {
       <td className="hidden sm:table-cell">{item?.email}</td>
       <td className="hidden sm:table-cell">{item?.role}</td>
       <td className="hidden md:table-cell">{item?.gender || "-"}</td>
-      <td className="hidden lg:table-cell">
-        <TimeAgo time={item?.createdAt} />
-      </td>
-      <td className="hidden xl:table-cell">
-        <TimeAgo time={item?.updatedAt} />
-      </td>
+      <td className="hidden lg:table-cell">{moment(item?.createdAt).fromNow()}</td>
+      <td className="hidden xl:table-cell">{moment(item?.updatedAt).fromNow()}</td>
       <td>
         <Actions
           modalView={() => setShowModalView(item?._id)}

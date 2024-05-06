@@ -11,7 +11,7 @@ const { upload } = require("../helper/utils");
 
 const router = require("express").Router();
 
-router.route("/").get(getProducts).post(verifyToken, verifyAdmin, upload, postProduct);
+router.route("/").get(verifyToken, getProducts).post(verifyToken, verifyAdmin, upload, postProduct);
 router
   .route("/:id")
   .get(getProductById)

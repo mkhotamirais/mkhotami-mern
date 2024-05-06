@@ -1,4 +1,3 @@
-// import { useEffect } from "react";
 import { useGetUsersQuery } from "../../../app/api/userApiSlice";
 import { Err, Loading, PostBtn } from "../../../components/Components";
 import { H2 } from "../../../components/Tags";
@@ -6,9 +5,6 @@ import AdmUserTable from "./AdmUserTable";
 
 const AdmUser = () => {
   const { data: users, isLoading, isSuccess, isError, error } = useGetUsersQuery();
-  // useEffect(() => {
-  //   console.log(users);
-  // }, [users]);
 
   let content;
   if (isLoading) content = <Loading />;

@@ -95,7 +95,7 @@ export const ConfModalDel = ({ onDelete, onClose, className }) => {
       <div className="flex gap-3">
         <form onSubmit={onDelete} className="relative">
           <input type="checkbox" autoFocus className="absolute opacity-0" />
-          <button type="submit" className="bg-red-500 text-white p-2 rounded">
+          <button autoFocus type="submit" className="bg-red-500 text-white p-2 rounded">
             Delete
           </button>
         </form>

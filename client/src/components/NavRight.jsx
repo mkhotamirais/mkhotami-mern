@@ -1,12 +1,11 @@
 import { FaSun, FaMoon, FaGithub, FaUser, FaCartPlus, FaBlog, FaFilm, FaUserCog } from "react-icons/fa";
+import { FaUserShield } from "react-icons/fa6";
 import { FaRightFromBracket, FaRightToBracket } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { removeOpenNavUser, toggleDark, toggleOpenNavUser } from "../app/features/basicSlice";
 import { Link } from "react-router-dom";
-import { RiAdminFill } from "react-icons/ri";
-import { useSignoutMutation } from "../app/api/authApiSlice";
+import { useGetMeQuery, useSignoutMutation } from "../app/api/authApiSlice";
 import toast from "react-hot-toast";
-import { removeUserData } from "../app/features/authSlice";
 
 export const NavDark = () => {
   const dispatch = useDispatch();
@@ -29,16 +28,19 @@ export const NavSourceCode = () => {
 };
 
 export const NavAuth = () => {
-  const { userData } = useSelector((state) => state.auth);
-  return userData?.role === "user" ? (
-    <NavAuthUser />
-  ) : userData?.role === "admin" ? (
-    <NavAuthAdmin />
-  ) : (
-    <Link to="/signin">
-      <FaRightToBracket />
-    </Link>
-  );
+  const { data: me } = useGetMeQuery();
+
+  if (me?.role === "user") {
+    return <NavAuthUser />;
+  } else if (me?.role === "admin") {
+    return <NavAuthAdmin />;
+  } else if (!me?.role) {
+    return (
+      <Link to="/signin">
+        <FaRightToBracket />
+      </Link>
+    );
+  }
 };
 
 export const NavAuthUser = () => {
@@ -82,7 +84,7 @@ export const NavAuthAdmin = () => {
   return (
     <div className="relative flex">
       <button onClick={() => dispatch(toggleOpenNavUser())}>
-        <RiAdminFill />
+        <FaUserShield />
       </button>
       {openNavUser && (
         <div
@@ -121,7 +123,6 @@ BtnAuth.propTypes;
 
 const BtnLogout = () => {
   const [logout] = useSignoutMutation();
-  const dispatch = useDispatch();
   const { dark } = useSelector((state) => state.basic);
 
   const handleLogout = () => {
@@ -129,7 +130,6 @@ const BtnLogout = () => {
       .unwrap()
       .then((res) => {
         toast.success(res.message);
-        dispatch(removeUserData());
       })
       .catch((err) => {
         toast.success(err.data.message);

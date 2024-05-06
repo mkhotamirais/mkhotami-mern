@@ -15,7 +15,7 @@ const productSchema = new mongoose.Schema(
     name: { type: String, unique: true, minLength: [3, "panjang produk minimal 3 karakter"], required: true },
     price: { type: Number, required: true, min: [3, "panjang harga minimal 3 digit"] },
     description: { type: String, required: true },
-    category: { type: mongoose.Schema.Types.ObjectId, ref: "category", required: true },
+    category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
     quantity: { type: Number, required: true },
     imageName: { type: String },
     imageUrl: { type: String },

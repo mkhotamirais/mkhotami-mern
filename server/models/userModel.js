@@ -2,12 +2,18 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    username: { type: String, unique: true, required: true, minLength: [3, "minimal panjang username 3 karakter"] },
-    email: { type: String, unique: true, required: true, minLength: [8, "minimal panjang email 8 karakter"] },
-    password: { type: String, required: true, minLength: [5, "minimal panjang password 5 karakter"] },
-    gender: { type: String },
-    role: { type: String, default: "user" },
-    token: { type: String },
+    username: {
+      type: String,
+      unique: true,
+      required: [true, "username required"],
+      minLength: [3, "min length 3 words"],
+      maxLength: [100, "max length 100 words"],
+    },
+    email: { type: String, unique: true, required: true },
+    password: { type: String, required: true },
+    role: { type: String, enum: ["user", "guest", "admin"], default: "user" },
+    gender: String,
+    token: [String],
   },
   {
     timestamps: true,

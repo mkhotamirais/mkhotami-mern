@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Input, InputRef, Label, Select, Textarea } from "../../../components/Tags";
+import { useState } from "react";
+import { Input, Label, Select, Textarea } from "../../../components/Tags";
 import { PreviewImg, Title } from "../../../components/Components";
 import { usePostProductMutation } from "../../../app/api/productApiSlice";
 import toast from "react-hot-toast";
@@ -7,7 +7,6 @@ import { useNavigate } from "react-router";
 import { useGetCategoriesQuery } from "../../../app/api/productCategoryApiSlice";
 
 const AdmProductPost = () => {
-  const nameRef = useRef();
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
@@ -20,10 +19,6 @@ const AdmProductPost = () => {
 
   const [postProduct] = usePostProductMutation();
   const { data: categories } = useGetCategoriesQuery();
-
-  useEffect(() => {
-    nameRef.current.focus();
-  }, []);
 
   const onRemovePreview = () => {
     setImage("");
@@ -55,8 +50,6 @@ const AdmProductPost = () => {
         navigate(-1);
       })
       .catch((err) => {
-        console.log(err);
-        console.log(err.product);
         toast.error(err.data.message);
       });
   };
@@ -68,7 +61,7 @@ const AdmProductPost = () => {
         <div className="flex sm:gap-3 flex-col sm:flex-row">
           <div className="flex-1">
             <Label id="name">Name</Label>
-            <InputRef ref={nameRef} id="name" value={name} onChange={(e) => setName(e.target.value)} />
+            <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
           </div>
           <div className="flex-1">
             <Label id="price">Price</Label>

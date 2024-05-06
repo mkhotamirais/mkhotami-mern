@@ -23,13 +23,14 @@ export const Label = ({ children = "Label", id, className }) => (
 );
 Label.propTypes;
 
-export const Input = ({ type = "text", id, value, onChange, autoComplete = "off", placeholder, className }) => (
+export const Input = ({ type = "text", id, value, onChange, autoFocus, autoComplete = "off", placeholder, className }) => (
   <input
     type={type}
     id={id}
     name={id}
     value={value}
     onChange={onChange}
+    autoFocus={autoFocus}
     autoComplete={autoComplete}
     placeholder={placeholder}
     className={`${className} border rounded p-2 block w-full bg-inherit mb-2`}

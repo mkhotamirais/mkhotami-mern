@@ -25,15 +25,18 @@ const getUserById = async (req, res) => {
 const postUser = async (req, res) => {
   try {
     const { username, email, password, confPassword } = req.body;
+
     if (!username) return err(res, 400, `username harus diisi`);
     if (!email) return err(res, 400, `email harus diisi`);
     if (!validator.isEmail(email)) return err(res, 400, `email tidak valid`);
     if (!password) return err(res, 400, `password harus diisi`);
+
     const dupUsername = await User.findOne({ username });
-    if (dupUsername) return err(res, 409, `username sudah terdaftar gunakan useraname lain`);
+    if (dupUsername) return err(res, 409, `username sudah terdaftar gunakan yang lain`);
     const dupEmail = await User.findOne({ email });
-    if (dupEmail) return err(res, 409, `email sudah terdaftar gunakan email lain`);
+    if (dupEmail) return err(res, 409, `email sudah terdaftar gunakan yang lain`);
     if (password !== confPassword) return err(res, 400, `konfirmasi password salah`);
+
     const hash = hashPass(password);
     req.body.password = hash;
     const data = await User.create(req.body);
